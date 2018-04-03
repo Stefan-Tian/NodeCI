@@ -1,0 +1,20 @@
+language: node_js
+node_js: 
+  - "8"
+dist: trusty
+services: 
+  - mongodb
+  - redis-server
+env: 
+  - NODE_ENV=ci PORT=3000
+cache: 
+  directories: 
+    - node_modules
+    - client/node_modules
+install: 
+  - yarn install
+  - yarn build
+script: 
+  - nohup yarn start & # nohup means keep running the server even with the terminal is closed, & means run it in the background
+  - sleep 3 # wait for 3 seconds for the server to be ready
+  - yarn test
